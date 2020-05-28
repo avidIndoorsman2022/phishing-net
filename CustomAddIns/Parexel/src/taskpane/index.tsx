@@ -9,7 +9,7 @@ initializeIcons();
 
 let isOfficeInitialized = false;
 
-const title = 'Phishing Net for Office 365';
+const title = 'Suspicious Email';
 
 
 const render = (Component) => {

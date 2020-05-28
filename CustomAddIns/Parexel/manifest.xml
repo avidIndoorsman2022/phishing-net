@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0" xsi:type="MailApp">
   <Id>f185db4e-5680-4d95-8248-06c9faf1e43a</Id>
-  <Version>1.0.0.0</Version>
+  <Version>1.1.7453.44493</Version>
   <ProviderName>Sperry Software</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="Phishing Net for Office 365"/>
+  <DisplayName DefaultValue="Suspicious Email"/>
   <Description DefaultValue="Submit phishing emails to your corporate security."/>
   <IconUrl DefaultValue="https://sperry365addins.z13.web.core.windows.net/prd-addins/PhishingNet/Parexel/assets/PhishingNet-32.png"/>
   <HighResolutionIconUrl DefaultValue="https://sperry365addins.z13.web.core.windows.net/prd-addins/PhishingNet/Parexel/assets/PhishingNet-80.png"/>
   <SupportUrl DefaultValue="https://www.SperrySoftware.com/Email-Tools/support-2"/>
   <AppDomains>
-    <AppDomain>sperry365webdev.z13.web.core.windows.net</AppDomain>
+    <AppDomain>sperry365addins.z13.web.core.windows.net</AppDomain>
   </AppDomains>
   <Hosts>
     <Host Name="Mailbox"/>
@@ -95,8 +95,8 @@
         <bt:Url id="Taskpane.Url" DefaultValue="https://sperry365addins.z13.web.core.windows.net/prd-addins/PhishingNet/Parexel/taskpane.html"/>
       </bt:Urls>
       <bt:ShortStrings>
-        <bt:String id="GroupLabel" DefaultValue="Phishing Net Add-in"/>
-        <bt:String id="TaskpaneButton.Label" DefaultValue="Suspicious Email"/>
+        <bt:String id="GroupLabel" DefaultValue="Information Security"/>
+        <bt:String id="TaskpaneButton.Label" DefaultValue="Information Security"/>
         <bt:String id="ActionButton.Label" DefaultValue="Submit Phishing Email"/>
       </bt:ShortStrings>
       <bt:LongStrings>
