@@ -1,3 +1,5 @@
+import debug from './Debug';
+
 export default class AppOptions {
 
     //
@@ -21,6 +23,7 @@ export default class AppOptions {
     private _defaultSendToMSWanted:boolean = false;
     private _defaultSendToDHSWanted:boolean = false;
     private _defaultSendToFTCWanted:boolean = false;
+    public defaultCurrentThreatsLink:string = "http://epsp.pxl.int/corp/Information%20Security/SitePages/Anti-Phishing%20Help.aspx"
 
     public readonly defaultNotificationEmailSubject = "Suspected Phishing Email"
     public readonly defaultNotificationEmailBodyForward = "This forwarded email looks suspicious."
@@ -140,6 +143,8 @@ export default class AppOptions {
         try {
             this._errMessage = "";
 
+            debug.Log("AppOptions.Initialize", "Initializing app options");
+
             this._notificationEmailAddress = this._defaultNotificationEmailAddress;
             this._notificationForwardAction = this._defaultNotificationForwardAction;
             this._displayEmailBeforeSendingWanted = this._defaultDisplayEmailBeforeSendingWanted;
@@ -152,9 +157,11 @@ export default class AppOptions {
                 theSetting = settings.get(this.nameNotificationEmailAddress);
                 if (theSetting != undefined) {
                     this._notificationEmailAddress = theSetting;
+                    debug.Log("AppOptions.Initialize", "Fetching notification email address: " + theSetting);
                 }
                 else {
                     this._notificationEmailAddress = this._defaultNotificationEmailAddress;
+                    debug.Log("AppOptions.Initialize", "Fetching default notification email address: " + this._defaultNotificationEmailAddress);
                 }
 
                 theSetting = settings.get(this.nameNotificationForwardAction);
@@ -201,18 +208,18 @@ export default class AppOptions {
                 }
             }
             
-            console.log("AppOption " + this.nameNotificationEmailAddress, this._notificationEmailAddress);
-            console.log("AppOption " + this.nameNotificationForwardAction, this._notificationForwardAction);
-            console.log("AppOption " + this.nameDisplayEmailBeforeSendingWanted, this._displayEmailBeforeSendingWanted);
-            console.log("AppOption " + this.nameDeleteOriginalEmailWanted, this._deleteOriginalEmailWanted);
-            console.log("AppOption " + this.nameSendToMSWanted, this._sendToMSWanted);
-            console.log("AppOption " + this.nameSendToDHSWanted, this._sendToDHSWanted);
-            console.log("AppOption " + this.nameSendToFTCWanted, this._sendToFTCWanted);
+            debug.Log("AppOptions.Initialize", "AppOption " + this.nameNotificationEmailAddress + ": " + this._notificationEmailAddress);
+            debug.Log("AppOptions.Initialize", "AppOption " + this.nameNotificationForwardAction + ": " + this._notificationForwardAction);
+            debug.Log("AppOptions.Initialize", "AppOption " + this.nameDisplayEmailBeforeSendingWanted + ": " + this._displayEmailBeforeSendingWanted);
+            debug.Log("AppOptions.Initialize", "AppOption " + this.nameDeleteOriginalEmailWanted + ": " + this._deleteOriginalEmailWanted);
+            debug.Log("AppOptions.Initialize", "AppOption " + this.nameSendToMSWanted + ": " + this._sendToMSWanted);
+            debug.Log("AppOptions.Initialize", "AppOption " + this.nameSendToDHSWanted + ": " + this._sendToDHSWanted);
+            debug.Log("AppOptions.Initialize", "AppOption " + this.nameSendToFTCWanted + ": " + this._sendToFTCWanted);
 
             success = true;
         }
         catch (error) {
-            console.log("Error occurred loading settings: ", error);
+            debug.LogException("AppOptions.Initialize", error);
             this._errMessage = error
             success = false;
         }
@@ -226,32 +233,38 @@ export default class AppOptions {
     public Save(settings: Office.RoamingSettings): boolean {
         let success: boolean = true;
 
-        if (this._isDirty) {
-            success = false;
-            try {
-                settings.set(this.nameNotificationEmailAddress, this._notificationEmailAddress);
-                settings.set(this.nameNotificationForwardAction, this._notificationForwardAction);
-                settings.set(this.nameDisplayEmailBeforeSendingWanted, this._displayEmailBeforeSendingWanted);
-                settings.set(this.nameDeleteOriginalEmailWanted, this._deleteOriginalEmailWanted);
-                settings.set(this.nameSendToMSWanted, this._sendToMSWanted);
-                settings.set(this.nameSendToDHSWanted, this._sendToDHSWanted);
-                settings.set(this.nameSendToFTCWanted, this._sendToFTCWanted);
-                settings.saveAsync(asyncResult => {
-                    if (asyncResult.status===Office.AsyncResultStatus.Failed) {
-                        console.log("Error: SaveSettings failed: " + asyncResult.error.message);
-                        this._errMessage = asyncResult.error.message;
-                        success = false;
-                    }
-                    else {
-                        success = true;
-                    }
-                });            
-            }
-            catch (error) {
-                console.log("Error occurred saving settings: ", error);
-                this._errMessage = error
+        try {
+            if (this._isDirty) {
                 success = false;
+                try {
+                    settings.set(this.nameNotificationEmailAddress, this._notificationEmailAddress);
+                    settings.set(this.nameNotificationForwardAction, this._notificationForwardAction);
+                    settings.set(this.nameDisplayEmailBeforeSendingWanted, this._displayEmailBeforeSendingWanted);
+                    settings.set(this.nameDeleteOriginalEmailWanted, this._deleteOriginalEmailWanted);
+                    settings.set(this.nameSendToMSWanted, this._sendToMSWanted);
+                    settings.set(this.nameSendToDHSWanted, this._sendToDHSWanted);
+                    settings.set(this.nameSendToFTCWanted, this._sendToFTCWanted);
+                    settings.saveAsync(asyncResult => {
+                        if (asyncResult.status===Office.AsyncResultStatus.Failed) {
+                            debug.Log("AppOptions.Save", "Error: SaveSettings failed: " + asyncResult.error.message);
+                            this._errMessage = asyncResult.error.message;
+                            success = false;
+                        }
+                        else {
+                            success = true;
+                        }
+                    });            
+                }
+                catch (error) {
+                    debug.LogException("AppOptions.Save", error);
+                    this._errMessage = error
+                    success = false;
+                }
             }
+        }
+        catch (ex) {
+            debug.LogException("AppOptions.Save", ex);
+            success = false;
         }
         return success;
     }

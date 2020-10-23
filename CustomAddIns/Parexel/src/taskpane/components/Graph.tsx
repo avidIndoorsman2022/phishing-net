@@ -1,6 +1,6 @@
 import * as $ from 'jquery';
 import * as MicrosoftGraph from '@microsoft/microsoft-graph-client';
-
+import debug from '../Debug';
 
 export default class Graph {
 
@@ -141,14 +141,14 @@ export default class Graph {
                         // Save the access token.
                         try {
                             self._accessToken = result.value;
-                            console.log("Successfully received token: ", self._accessToken);
+                            debug.Log("Graph.getGraphToken", "Successfully received token: ", self._accessToken);
                         }
                         catch (e) {
-                            console.log("Error retrieving token: ", e);
+                            debug.LogException("Graph.getGraphToken", e);
                         }
                     } else {
                         // Handle the error.
-                        console.log("Failed token! ", result);
+                        debug.Log("Graph.getGraphToken", "Failed token! ", result);
                     }
                     resolve();
                 })
@@ -167,7 +167,7 @@ export default class Graph {
             done(null, accessToken);
           }
         });              
-        console.log("Successfully authenticated client");
+        debug.Log("App.getAuthenticatedClient", "Successfully authenticated client");
         return client;
     }
 
@@ -184,13 +184,12 @@ export default class Graph {
         try {
             await this.getGraphToken();
             this._client = this.getAuthenticatedClient(this._accessToken);
-            console.log("Initialize token completed");    
+            debug.Log("Graph.initializeRESTToken", "Initialize token completed");    
         }    
         catch (e) {
-            console.log("Error occurred in Graph.initializeToken: ", e);
+            debug.LogException("Graph.initializeRESTToken: ", e);
         }
     }
-
 
 
     constructor(mailbox:Office.Mailbox) {
@@ -248,7 +247,7 @@ export default class Graph {
                 // Construct the Graph REST URL to the current item.
                 //var getMessageUrl = 'https://graph.microsoft.com/v1.0/me/messages/' + itemId;
                 let getMessageUrl = self.getClientURL() + '/me/messages/' + itemId;
-                console.log("Getting from URL: " + getMessageUrl);
+                debug.Log("Graph.getItemSubject", "Getting from URL: " + getMessageUrl);
                 //let message = await self._client.api("https://outlook.office.com/api/v2.0/me/messages/" + itemId)                
                 //                 .get();  
                 //var subject = message.Subject;
@@ -261,17 +260,17 @@ export default class Graph {
                     headers: { 'Authorization': 'Bearer ' + self._accessToken} //,
                     //data: self.getMessageData() 
                 }).always(function(response) {
-                    console.log("Ajax response: ", response)
+                    debug.Log("Graph.getItemSubject", "Ajax response: " + response.status, response)
                     if (response.status === 200) {
                         let item = JSON.parse(response.responseText);
                         var subject = item.Subject;
-                        console.log("Subject (Ajax): ", subject);
+                        debug.Log("Graph.getItemSubject", "Subject (Ajax): " + subject);
                         self._success = true;
                     }
                     else {
                         let errorResponse = response.responseText;
                         self._errorMessage = "Error: " + errorResponse.error.message;
-                        console.log("Error occurred fetching subject: ", self._errorMessage);
+                        debug.Log("Graph.getItemSubject", "Error occurred fetching subject: " + self._errorMessage);
                         self._success = false;
                     }
                 });
@@ -279,7 +278,7 @@ export default class Graph {
             });    
         }
         catch (e) {
-            console.log("Error occurred in Graph.getItemSubject. Reason: ", e);
+            debug.LogException("Graph.getItemSubject", e);
         }
     }    
 
@@ -347,8 +346,8 @@ export default class Graph {
                     // response.error.code
                     // response.error.innerError.requestId
                     // response.error.innerError.date
-                    console.log("Error occurred creating item: ", error)
                     let response = error.responseJSON;
+                    debug.Log("Graph.createItem", "Error occurred creating item: " + response.error.message)
                     self._errorMessage = "Error creating item: " + response.error.message;
                     self._success = false;
                 });
@@ -356,7 +355,7 @@ export default class Graph {
             });    
         }
         catch (e) {
-            console.log("Error occurred creating item.  Reason: ", e);            
+            debug.LogException("Graph.createItem", e);            
             this._errorMessage = "Error occurred creating item. Reason: " + e;
             this._success = false;
         }
@@ -375,7 +374,7 @@ export default class Graph {
                 // Construct the Graph REST URL to the current item.
                 //var getMessageUrl = 'https://graph.microsoft.com/v1.0/me/messages/' + itemId;
                 let getMessageUrl = self.getClientURL() + '/me/messages/' + itemId+ '/$value';
-                console.log("Getting from URL: " + getMessageUrl);
+                debug.Log("Graph.getMIMEMessage", "Getting from URL: " + getMessageUrl);
                 //let message = await self._client.api("https://outlook.office.com/api/v2.0/me/messages/" + itemId)                
                 //                 .get();  
                 //var subject = message.Subject;
@@ -390,18 +389,18 @@ export default class Graph {
                 }).done(function(response) {
                     self._mimeContent = response;
                     self._success = true;
-                    console.log("Successfully retrieved MIME content: " + self._mimeContent.length);
+                    debug.Log("Graph.getMIMEMessage", "Successfully retrieved MIME content: " + self._mimeContent.length);
                 }).fail(function(errorResponse) {
                     let errorMessage = errorResponse.responseJSON;
                     self._errorMessage = "Error: " + errorMessage.error.message;
-                    console.log("Error occurred fetching MIME content: ", errorResponse);
+                    debug.Log("Graph.getMIMEMessage", "Error occurred fetching MIME content: " + errorMessage.error.message, errorResponse);
                     self._success = false;
                 });
                 resolve();
             });    
         }
         catch (e) {
-            console.log("Error occurred in Graph.getMIMEMessage. Reason: ", e);
+            debug.Log("Graph.getMIMEMessage", e);
         }
     }
 
@@ -423,7 +422,7 @@ export default class Graph {
                 }).done(function(listOfAttachments){
                     //var subject = item.Subject;
                     //console.log("Subject (Ajax): ", subject, item);
-                    console.log("List of Attachments: ", listOfAttachments)
+                    debug.Log("Graph.getAttachments", "List of Attachments: success", listOfAttachments)
                     self._success = true;
                 }).fail(function(error){
                     // Handle error.
@@ -431,8 +430,8 @@ export default class Graph {
                     // response.error.code
                     // response.error.innerError.requestId
                     // response.error.innerError.date
-                    console.log("Error occurred creating item: ", error)
                     let response = error.responseJSON;
+                    debug.Log("Graph.getAttachments", "Error occurred creating item: " + response.error.message, error)
                     self._errorMessage = "Error retrieving list of attachments: " + response.error.message;
                     self._success = false;
                 });
@@ -440,14 +439,14 @@ export default class Graph {
             });    
         }
         catch (e) {
-            console.log("Error occurred retrieiving list of attachments.  Reason: ", e);            
+            debug.LogException("Graph.getAttachments", e);            
             this._errorMessage = "Error occurred retrieving list of attachments. Reason: " + e;
             this._success = false;
         }
     }
 
     async cbAddItemAttachment(result) {
-        console.log("AddItemAttachment result: ", result);
+        debug.Log("Graph.cbAddItemAttachment", "Added Item Attachment", result);
     }
 
     // async jsAddAttachmentItem(itemIdToAttach:string, name:string) {
@@ -485,9 +484,7 @@ export default class Graph {
                 //    .post(message);
                 //console.log("Successfully created item: ", res);    
                 let safeName = name;                
-                console.log("Self: ", self);                
-                console.log("Length of attachment data: ", self._mimeContent.length);
-                console.log("Item: ", itemIdToAttach);
+                debug.Log("Graph.addAttachmentItem", "Attaching: " + name, itemIdToAttach);                
                 const attachmentData = JSON.stringify({
                     "@odata.type": "#Microsoft.OutlookServices.FileAttachment",
                     //ContentType: null,
@@ -495,7 +492,7 @@ export default class Graph {
                     //"IsInline": "false",
                     //LastModifiedDateTime: modifiedDate,
                     "Name": safeName + ".eml",
-                    "ContentBytes": btoa(self._mimeContent)
+                    "ContentBytes": btoa(unescape(encodeURIComponent(self._mimeContent)))
                     });        
                    //let attachmentData = self.getItemAttachmentData(itemIdToAttach, safeName);
                 await $.ajax({
@@ -508,7 +505,7 @@ export default class Graph {
                 }).done(function(attachmentResponse){
                     //var subject = item.Subject;
                     //console.log("Subject (Ajax): ", subject, item);
-                    console.log("Successfully attached: ", attachmentResponse);
+                    debug.Log("Successfully attached", attachmentResponse);
                     self._success = true;
                 }).fail(function(error){
                     // Handle error.
@@ -516,20 +513,20 @@ export default class Graph {
                     // response.error.code
                     // response.error.innerError.requestId
                     // response.error.innerError.date
-                    console.log("Error occurred attaching item: ", error)
                     let response = error.responseJSON;
+                    debug.Log("Graph.addAttachmentItem", "Error occurred attaching item: " + response.error.message)
                     self._errorMessage = "Error attaching attachment: " + response.error.message;
                     self._success = false;
                 });
                 resolve();
             }
             catch (e) {
-                console.log("Error occurred while adding attachments.  Reason: ", e);            
+                debug.LogException("Graph.addAttachmentItem", e);            
             }
             });    
         }
         catch (e) {
-            console.log("Error occurred adding attachments.  Reason: ", e);            
+            debug.LogException("Graph.addAttachmentItem", e);            
             this._errorMessage = "Error occurred adding attachments. Reason: " + e;
             this._success = false;
         }
@@ -537,7 +534,7 @@ export default class Graph {
 
     async forwardItem(itemId:string) {
         try {
-            console.log("Preparing to forward item " + itemId);
+            debug.Log("Graph.forwardItem", "Preparing to forward item " + itemId);
             let self = this;
             self._success = false;
             return await new Promise(async resolve => {        
@@ -564,15 +561,15 @@ export default class Graph {
                     data: message
                 }).done(function(response) {
                     self._success = true;
-                    console.log("Successfully sent forwarded email", response);
+                    debug.Log("Graph.forwardItem", "Successfully sent forwarded email", response);
                 }).fail(function(error){
                     // Handle error.
                     // Note that there are other fields returned:
                     // response.error.code
                     // response.error.innerError.requestId
                     // response.error.innerError.date
-                    console.log("Error occurred sending forwarded item: ", error)
                     let response = error.responseJSON;
+                    debug.Log("Graph.forwardItem", "Error occurred sending forwarded item: "+ response.error.message, error);
                     self._errorMessage = "Error creating item: " + response.error.message;
                     self._success = false;
                 });    
@@ -580,7 +577,7 @@ export default class Graph {
             })
         }
         catch (e) {
-            console.log("Error occurred sending forward item.  Reason: ", e);            
+            debug.LogException("Graph.forwardItem", e);            
             this._errorMessage = "Error occurred sending forward item. Reason: " + e;
             this._success = false;
         }
@@ -588,7 +585,7 @@ export default class Graph {
 
     async createForwardItem(itemId:string) {
         try {
-            console.log("Preparing to create forward item " + itemId);
+            debug.Log("Graph.createForwardItem", "Preparing to create forward item " + itemId);
             let self = this;
             self._success = false;
             return await new Promise(async resolve => {        
@@ -604,7 +601,7 @@ export default class Graph {
                                 'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false' },
                 }).done(function(response) {
                     self._success = true;
-                    console.log("Successfully created forwarded email");
+                    debug.Log("Graph.createForwardItem", "Successfully created forwarded email");
                     self._createdItemId = response.Id;
                     self._createdItem = response; 
                 }).fail(function(error){
@@ -613,8 +610,8 @@ export default class Graph {
                     // response.error.code
                     // response.error.innerError.requestId
                     // response.error.innerError.date
-                    console.log("Error occurred creating forward item: ", error)
                     let response = error.responseJSON;
+                    debug.Log("Graph.createForwardItem", "Error occurred creating forward item", error);
                     self._errorMessage = "Error creating forward item: " + response.error.message;
                     self._success = false;
                 });    
@@ -622,7 +619,7 @@ export default class Graph {
             })
         }
         catch (e) {
-            console.log("Error occurred sending forward item.  Reason: ", e);            
+            debug.LogException("Graph.createForwardItem", e);            
             this._errorMessage = "Error occurred sending forward item. Reason: " + e;
             this._success = false;
         }
@@ -630,7 +627,7 @@ export default class Graph {
 
     async updateItem(itemId:string) {
         try {
-            console.log("Preparing to update item " + itemId);
+            debug.Log("Graph.updateItem", "Preparing to update item " + itemId);
             let self = this;
             self._success = false;
             return await new Promise(async resolve => {        
@@ -656,16 +653,15 @@ export default class Graph {
                     data: message
                 }).done(function(response) {
                     self._success = true;
-                    console.log("Successfully updated forwarded email");
-                    console.log(response);
+                    debug.Log("Graph.updateItem", "Successfully updated forwarded email", response);
                 }).fail(function(error){
                     // Handle error.
                     // Note that there are other fields returned:
                     // response.error.code
                     // response.error.innerError.requestId
                     // response.error.innerError.date
-                    console.log("Error occurred updating item: ", error)
                     let response = error.responseJSON;
+                    debug.Log("Graph.updateItem", "Error occurred updating item: " + response.error.message, error)
                     self._errorMessage = "Error updating item: " + response.error.message;
                     self._success = false;
                 });    
@@ -673,7 +669,7 @@ export default class Graph {
             })
         }
         catch (e) {
-            console.log("Error occurred updating forward item.  Reason: ", e);            
+            debug.LogException("Graph.updateItem", e);            
             this._errorMessage = "Error occurred updating forward item. Reason: " + e;
             this._success = false;
         }
@@ -707,7 +703,7 @@ export default class Graph {
             });    
         }
         catch (e) {
-            console.log("Error occurred sending item.  Reason: ", e);            
+            debug.Log("Error occurred sending item.  Reason: ", e);            
             this._errorMessage = "Error occurred sending item. Reason: " + e;
             this._success = false;
         }
@@ -718,7 +714,7 @@ export default class Graph {
       //
       async deleteItem(itemId:string) {
         try {
-            console.log("Preparing to delete item " + itemId);
+            debug.Log("Graph.deleteItem", "Preparing to delete item " + itemId);
             let self = this;
             self._success = false;
             return await new Promise(async resolve => {        
@@ -738,16 +734,15 @@ export default class Graph {
                     data: message
                 }).done(function(response) {
                     self._success = true;
-                    console.log("Successfully deleted suspicious email");
-                    console.log(response);
+                    debug.Log("Grapg.deleteItem", "Successfully deleted suspicious email", response);
                 }).fail(function(error){
                     // Handle error.
                     // Note that there are other fields returned:
                     // response.error.code
                     // response.error.innerError.requestId
                     // response.error.innerError.date
-                    console.log("Error occurred deleting item: ", error)
                     let response = error.responseJSON;
+                    debug.Log("Graph.deleteItem", "Error occurred deleting item: ", error)
                     self._errorMessage = "Error deleting item: " + response.error.message;
                     self._success = false;
                 });    
@@ -755,7 +750,7 @@ export default class Graph {
             })
         }
         catch (e) {
-            console.log("Error occurred deleting suspicious item.  Reason: ", e);            
+            debug.Log("Error occurred deleting suspicious item.  Reason: ", e);            
             this._errorMessage = "Error occurred deleting suspicious item. Reason: " + e;
             this._success = false;
         }

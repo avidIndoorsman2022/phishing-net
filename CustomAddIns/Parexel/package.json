@@ -24,6 +24,7 @@
     "watch": "webpack --mode development --watch"
   },
   "dependencies": {
+    "@microsoft/applicationinsights-web": "^2.5.9",
     "@microsoft/microsoft-graph-client": "^2.0.0",
     "@types/jquery": "^3.3.31",
     "core-js": "^3.1.4",

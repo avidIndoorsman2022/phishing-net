@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0" xsi:type="MailApp">
   <Id>f185db4e-5680-4d95-8248-06c9faf1e43a</Id>
-  <Version>1.1.7478.45941</Version>
+  <Version>1.2.7599.61107</Version>
   <ProviderName>Sperry Software</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="Suspicious Email"/>
@@ -11,6 +11,7 @@
   <SupportUrl DefaultValue="https://www.SperrySoftware.com/Email-Tools/support-2"/>
   <AppDomains>
     <AppDomain>sperry365addins.z13.web.core.windows.net</AppDomain>
+    <AppDomain>www.sperrysoftware.com</AppDomain>
   </AppDomains>
   <Hosts>
     <Host Name="Mailbox"/>
@@ -34,11 +35,6 @@
   </Rule>
   <DisableEntityHighlighting>false</DisableEntityHighlighting>
   <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides"  xsi:type="VersionOverridesV1_0">
-    <Requirements>
-      <bt:Sets DefaultMinVersion="1.5">
-        <bt:Set Name="Mailbox"/>
-      </bt:Sets>
-    </Requirements>
     <Hosts>
       <Host xsi:type="MailHost">
         <DesktopFormFactor>
@@ -107,6 +103,11 @@
       </bt:LongStrings>
     </Resources>
     <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
+      <Requirements>
+        <bt:Sets DefaultMinVersion="1.5">
+          <bt:Set Name="Mailbox"/>
+        </bt:Sets>
+      </Requirements>
       <Hosts>
         <Host xsi:type="MailHost">
           <DesktopFormFactor>
