@@ -129,7 +129,7 @@ export default class App extends React.Component<AppProps, AppState> {
                   }
               }      
               //
-              // And finally, let the user know it went ok.
+              // Let the user know it went ok.
               //
               this._showNotificationMessage('Message successfully sent.', MessageBarType.success);
               //
@@ -139,6 +139,12 @@ export default class App extends React.Component<AppProps, AppState> {
               //  debug.Log("App.Click", "Closing the task pane on behalf of the iOS user");
               //  Office.context.ui.closeContainer();
               //}
+              //
+              // And finally, save the new options if necessary.
+              //
+              if (_appOptions.isDirty===true || debug.IsDirty===true) {
+                _appOptions.Save(Office.context.roamingSettings);
+              }
           }
           else {
               debug.Log("App.Click", "Failed to send email!");
@@ -166,29 +172,38 @@ export default class App extends React.Component<AppProps, AppState> {
   // This is for all the checkboxes presented.
   //
   _onCheckboxChange = (refName: string, ev: React.FormEvent<HTMLElement>, isChecked: boolean): void => {
-    debug.Log("App.onCheckboxChange", 'The option ' + refName + ' has been changed to ' + isChecked, ev.type);    
-    if (refName === _appOptions.nameDeleteOriginalEmailWanted) {
-      _appOptions.deleteOriginalEmailWanted = isChecked;
-    } 
-    else if (refName === _appOptions.nameDisplayEmailBeforeSendingWanted) {
-      _appOptions.displayEmailBeforeSendingWanted = isChecked;
-    } 
-    else if (refName === _appOptions.nameSendToMSWanted) {
-      _appOptions.sendToMSWanted = isChecked;
-    } 
-    else if (refName === _appOptions.nameSendToFTCWanted) {
-      _appOptions.sendToFTCWanted = isChecked;
-    } 
-    else if (refName === _appOptions.nameSendToDHSWanted) {
-      _appOptions.sendToDHSWanted = isChecked;
-    } 
+    if (refName === debug.nameDebugLogWanted) {
+      debug.debugLogWanted = isChecked;
+      debug.Log("App.onCheckboxChange", 'The option ' + refName + ' has been changed to ' + isChecked + ';', ev.type);    
+    }
     else {
-      debug.Log("App.onCheckChange", "Unknown option: " + refName);
-    }    
-  }
+      debug.Log("App.onCheckboxChange", 'The option ' + refName + ' has been changed to ' + isChecked + ';', ev.type);    
+      if (refName === _appOptions.nameDeleteOriginalEmailWanted) {
+        _appOptions.deleteOriginalEmailWanted = isChecked;
+      } 
+      else if (refName === _appOptions.nameDisplayEmailBeforeSendingWanted) {
+        _appOptions.displayEmailBeforeSendingWanted = isChecked;
+      } 
+      else if (refName === _appOptions.nameSendToMSWanted) {
+        _appOptions.sendToMSWanted = isChecked;
+      } 
+      else if (refName === _appOptions.nameSendToFTCWanted) {
+        _appOptions.sendToFTCWanted = isChecked;
+      } 
+      else if (refName === _appOptions.nameSendToDHSWanted) {
+        _appOptions.sendToDHSWanted = isChecked;
+      } 
+      else {
+        debug.Log("App.onCheckChange", "Unknown option: " + refName);
+      }      
+    }
+    if (_appOptions.isDirty===true || debug.IsDirty===true) {
+      _appOptions.Save(Office.context.roamingSettings, debug.IsDirty);
+    }
+}
 
   //
-  // This is for chaning the method by which a forward occurs.
+  // This is for changing the method by which a forward occurs.
   // We can either forward normally (like DHS or FTC) or forward 
   // as an attachment which some vendors require (like Microsoft).
   //
@@ -312,21 +327,20 @@ export default class App extends React.Component<AppProps, AppState> {
     }
 
     //
-    //     
-    debug.Log("App.render", "Office has initialized");
-    debug.DebugInfo();
-
-    //
     // Load the user's settings.
     //     
     _appOptions = new AppOptions;
     _settings = Office.context.roamingSettings; 
-    debug.Log("App.render", "Calling AppOptions.Initialize");
     let success = _appOptions.Initialize(_settings);
     if (!success) {      
       debug.Log("App.render", "Failed to initialize appOptions"); // use the Notification Error in Commands, MessageBar in TaskPane
     }
 
+    //
+    // Start adding debug information if we're allowed...
+    //
+    debug.Log("App.render", "Office has initialized");
+    debug.DebugInfo();
     debug.Log("App.render", "Rendering main");
 
     // Confirmation Prompt:
@@ -345,11 +359,14 @@ export default class App extends React.Component<AppProps, AppState> {
       padding: 10
     };
 
-    //const aboutAreaCheckboxStyle = (props) => {
-    //  return {
-    //    text: { ...props.theme.fonts.xSmall}
-    //  }
-    //}
+    //
+    // These are for the About area...
+    //
+    const aboutAreaCheckboxStyle = (props) => {
+      return {
+        text: { ...props.theme.fonts.xSmall}
+      }
+    }
     const aboutAreaVerticalGapStackTokens: IStackTokens = {
       childrenGap: 5,
       padding: 5
@@ -412,13 +429,13 @@ export default class App extends React.Component<AppProps, AppState> {
         <HorizontalSeparator content='About'> </HorizontalSeparator>        
         <Stack tokens={aboutAreaVerticalGapStackTokens}>
           <Text variant='xSmall'>{"Version: " + debug.APP_VER}</Text>
-          { /*<Checkbox label="Enable debug logging:" 
-                    defaultChecked={false}
+          <Checkbox label="Enable debug logging:"
+                    defaultChecked={debug.debugLogWanted}
                     boxSide='end'
                     disabled={false}
                     className='ms-font-xs'
-                    styles={aboutAreaCheckboxStyle}/>
-                   onChange={this._onCheckboxChange.bind(this, _appOptions.nameDeleteOriginalEmailWanted)} /> */}
+                    styles={aboutAreaCheckboxStyle}
+                    onChange={this._onCheckboxChange.bind(this, debug.nameDebugLogWanted)} />
           <p className='ms-font-xs'><a href="javascript:window.location.reload(true);">Reload</a></p>
         </Stack>
       </div>

@@ -3,3 +3,6 @@
 ################################################################################
 
 /CustomAddIns/Parexel/node_modules
+/CustomAddIns/Parexel/dist
+node_modules
+dist

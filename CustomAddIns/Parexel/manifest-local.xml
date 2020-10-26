@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0" xsi:type="MailApp">
   <Id>f185db4e-5680-4d95-8248-06c9faf1e43a</Id>
-  <Version>1.2.7599.61105</Version> <!-- If this changes, change it in Debug.tsx also!-->
+  <Version>1.2.7604.40161</Version> <!-- If this changes, change it in Debug.tsx also!-->
   <ProviderName>Sperry Software</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="Phishing Net for Office 365"/>

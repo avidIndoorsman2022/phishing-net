@@ -143,8 +143,6 @@ export default class AppOptions {
         try {
             this._errMessage = "";
 
-            debug.Log("AppOptions.Initialize", "Initializing app options");
-
             this._notificationEmailAddress = this._defaultNotificationEmailAddress;
             this._notificationForwardAction = this._defaultNotificationForwardAction;
             this._displayEmailBeforeSendingWanted = this._defaultDisplayEmailBeforeSendingWanted;
@@ -154,6 +152,20 @@ export default class AppOptions {
             this._sendToFTCWanted = this._defaultSendToFTCWanted;
 
             if (settings!=undefined) {
+
+                //
+                // Start by getting the setting for the debug log wanted,
+                // then we can get all the other settings.
+                //
+                theSetting = settings.get(debug.nameDebugLogWanted);
+                if (theSetting != undefined) {
+                    debug.debugLogWanted = theSetting;
+                    debug.Log("AppOptions.Initialize", "DebugLogWanted setting: " + debug.debugLogWanted);
+                    debug.ResetIsDirty(); // It's not dirty until the user changes it, not us
+                }
+
+                debug.Log("AppOptions.Initialize", "Initializing app options");
+
                 theSetting = settings.get(this.nameNotificationEmailAddress);
                 if (theSetting != undefined) {
                     this._notificationEmailAddress = theSetting;
@@ -230,11 +242,11 @@ export default class AppOptions {
     //
     // Save the settings, providing defaults if necessary.
     //
-    public Save(settings: Office.RoamingSettings): boolean {
+    public Save(settings: Office.RoamingSettings, forceIt:boolean=false): boolean {
         let success: boolean = true;
 
         try {
-            if (this._isDirty) {
+            if (this._isDirty || forceIt) {
                 success = false;
                 try {
                     settings.set(this.nameNotificationEmailAddress, this._notificationEmailAddress);
@@ -244,6 +256,7 @@ export default class AppOptions {
                     settings.set(this.nameSendToMSWanted, this._sendToMSWanted);
                     settings.set(this.nameSendToDHSWanted, this._sendToDHSWanted);
                     settings.set(this.nameSendToFTCWanted, this._sendToFTCWanted);
+                    settings.set(debug.nameDebugLogWanted, debug.debugLogWanted);    
                     settings.saveAsync(asyncResult => {
                         if (asyncResult.status===Office.AsyncResultStatus.Failed) {
                             debug.Log("AppOptions.Save", "Error: SaveSettings failed: " + asyncResult.error.message);
@@ -252,6 +265,9 @@ export default class AppOptions {
                         }
                         else {
                             success = true;
+                            this._isDirty = false;
+                            debug.ResetIsDirty();
+                            debug.Log("AppOptions.Save", "SaveSettings succeeded");
                         }
                     });            
                 }
