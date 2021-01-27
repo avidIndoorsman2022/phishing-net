@@ -228,6 +228,8 @@ export default class AppOptions {
             debug.Log("AppOptions.Initialize", "AppOption " + this.nameSendToDHSWanted + ": " + this._sendToDHSWanted);
             debug.Log("AppOptions.Initialize", "AppOption " + this.nameSendToFTCWanted + ": " + this._sendToFTCWanted);
 
+            this._isDirty = false;
+            
             success = true;
         }
         catch (error) {
@@ -246,6 +248,7 @@ export default class AppOptions {
         let success: boolean = true;
 
         try {
+            debug.Log("AppOptions.Save", "Saving options: " + this._isDirty);
             if (this._isDirty || forceIt) {
                 success = false;
                 try {

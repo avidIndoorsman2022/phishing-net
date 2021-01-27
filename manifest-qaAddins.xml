@@ -6,8 +6,8 @@
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="Phishing Net"/>
   <Description DefaultValue="Submit phishing emails to your corporate security."/>
-  <IconUrl DefaultValue="https://sperry365addins.z13.web.core.windows.net/dev-addins/PhishingNet/assets/PhishingNet-32.png"/>
-  <HighResolutionIconUrl DefaultValue="https://sperry365addins.z13.web.core.windows.net/dev-addins/PhishingNet/assets/PhishingNet-80.png"/>
+  <IconUrl DefaultValue="https://sperry365addins.z13.web.core.windows.net/qa-addins/PhishingNet/assets/PhishingNet-32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://sperry365addins.z13.web.core.windows.net/qa-addins/PhishingNet/assets/PhishingNet-80.png"/>
   <SupportUrl DefaultValue="https://www.SperrySoftware.com/Email-Tools/support-2"/>
   <AppDomains>
     <AppDomain>sperry365addins.z13.web.core.windows.net</AppDomain>
@@ -24,7 +24,7 @@
   <FormSettings>
     <Form xsi:type="ItemRead">
       <DesktopSettings>
-        <SourceLocation DefaultValue="https://sperry365addins.z13.web.core.windows.net/dev-addins/PhishingNet/taskpane.html"/>
+        <SourceLocation DefaultValue="https://sperry365addins.z13.web.core.windows.net/qa-addins/PhishingNet/taskpane.html"/>
         <RequestedHeight>250</RequestedHeight>
       </DesktopSettings>
     </Form>
@@ -82,15 +82,15 @@
     </Hosts>
     <Resources>
       <bt:Images>
-        <bt:Image id="Icon.16x16" DefaultValue="https://sperry365addins.z13.web.core.windows.net/dev-addins/PhishingNet/assets/PhishingNet-16.png"/>
-        <bt:Image id="Icon.25x25" DefaultValue="https://sperry365addins.z13.web.core.windows.net/dev-addins/PhishingNet/assets/PhishingNet-25.png"/>
-        <bt:Image id="Icon.32x32" DefaultValue="https://sperry365addins.z13.web.core.windows.net/dev-addins/PhishingNet/assets/PhishingNet-32.png"/>
-        <bt:Image id="Icon.48x48" DefaultValue="https://sperry365addins.z13.web.core.windows.net/dev-addins/PhishingNet/assets/PhishingNet-48.png"/>
-        <bt:Image id="Icon.80x80" DefaultValue="https://sperry365addins.z13.web.core.windows.net/dev-addins/PhishingNet/assets/PhishingNet-80.png"/>
+        <bt:Image id="Icon.16x16" DefaultValue="https://sperry365addins.z13.web.core.windows.net/qa-addins/PhishingNet/assets/PhishingNet-16.png"/>
+        <bt:Image id="Icon.25x25" DefaultValue="https://sperry365addins.z13.web.core.windows.net/qa-addins/PhishingNet/assets/PhishingNet-25.png"/>
+        <bt:Image id="Icon.32x32" DefaultValue="https://sperry365addins.z13.web.core.windows.net/qa-addins/PhishingNet/assets/PhishingNet-32.png"/>
+        <bt:Image id="Icon.48x48" DefaultValue="https://sperry365addins.z13.web.core.windows.net/qa-addins/PhishingNet/assets/PhishingNet-48.png"/>
+        <bt:Image id="Icon.80x80" DefaultValue="https://sperry365addins.z13.web.core.windows.net/qa-addins/PhishingNet/assets/PhishingNet-80.png"/>
       </bt:Images>
       <bt:Urls>
-        <bt:Url id="Commands.Url" DefaultValue="https://sperry365addins.z13.web.core.windows.net/dev-addins/PhishingNet/commands.html"/>
-        <bt:Url id="Taskpane.Url" DefaultValue="https://sperry365addins.z13.web.core.windows.net/dev-addins/PhishingNet/taskpane.html"/>
+        <bt:Url id="Commands.Url" DefaultValue="https://sperry365addins.z13.web.core.windows.net/qa-addins/PhishingNet/commands.html"/>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://sperry365addins.z13.web.core.windows.net/qa-addins/PhishingNet/taskpane.html"/>
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="GroupLabel" DefaultValue="Sperry Software"/>
@@ -99,7 +99,7 @@
       </bt:ShortStrings>
       <bt:LongStrings>
         <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Report suspicious emails"/>
-        <bt:String id="ActionButton.Tooltip" DefaultValue="Submit suspected phishing emails."/>
+        <bt:String id="ActionButton.Tooltip" DefaultValue="Submit suspected phishing email."/>
       </bt:LongStrings>
     </Resources>
     <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
@@ -183,24 +183,24 @@
     </Hosts>
         <Resources>
           <bt:Images>
-            <bt:Image id="Icon.16x16" DefaultValue="https://sperry365addins.z13.web.core.windows.net/dev-addins/PhishingNet/assets/PhishingNet-16.png"/>
-            <bt:Image id="Icon.25x25" DefaultValue="https://sperry365addins.z13.web.core.windows.net/dev-addins/PhishingNet/assets/PhishingNet-25.png"/>
-            <bt:Image id="Icon.32x32" DefaultValue="https://sperry365addins.z13.web.core.windows.net/dev-addins/PhishingNet/assets/PhishingNet-32.png"/>
-            <bt:Image id="Icon.48x48" DefaultValue="https://sperry365addins.z13.web.core.windows.net/dev-addins/PhishingNet/assets/PhishingNet-48.png"/>
-            <bt:Image id="Icon.80x80" DefaultValue="https://sperry365addins.z13.web.core.windows.net/dev-addins/PhishingNet/assets/PhishingNet-80.png"/>
+            <bt:Image id="Icon.16x16" DefaultValue="https://sperry365addins.z13.web.core.windows.net/qa-addins/PhishingNet/assets/PhishingNet-16.png"/>
+            <bt:Image id="Icon.25x25" DefaultValue="https://sperry365addins.z13.web.core.windows.net/qa-addins/PhishingNet/assets/PhishingNet-25.png"/>
+            <bt:Image id="Icon.32x32" DefaultValue="https://sperry365addins.z13.web.core.windows.net/qa-addins/PhishingNet/assets/PhishingNet-32.png"/>
+            <bt:Image id="Icon.48x48" DefaultValue="https://sperry365addins.z13.web.core.windows.net/qa-addins/PhishingNet/assets/PhishingNet-48.png"/>
+            <bt:Image id="Icon.80x80" DefaultValue="https://sperry365addins.z13.web.core.windows.net/qa-addins/PhishingNet/assets/PhishingNet-80.png"/>
           </bt:Images>
           <bt:Urls>
-            <bt:Url id="Commands.Url" DefaultValue="https://sperry365addins.z13.web.core.windows.net/dev-addins/PhishingNet/commands.html"/>
-            <bt:Url id="Taskpane.Url" DefaultValue="https://sperry365addins.z13.web.core.windows.net/dev-addins/PhishingNet/taskpane.html"/>
+            <bt:Url id="Commands.Url" DefaultValue="https://sperry365addins.z13.web.core.windows.net/qa-addins/PhishingNet/commands.html"/>
+            <bt:Url id="Taskpane.Url" DefaultValue="https://sperry365addins.z13.web.core.windows.net/qa-addins/PhishingNet/taskpane.html"/>
           </bt:Urls>
           <bt:ShortStrings>
             <bt:String id="GroupLabel" DefaultValue="Sperry Software"/>
             <bt:String id="TaskpaneButton.Label" DefaultValue="Phishing Net"/>
-            <bt:String id="ActionButton.Label" DefaultValue="Submit Phishing Email"/>
+            <bt:String id="ActionButton.Label" DefaultValue="Submit Phishing Emails"/>
           </bt:ShortStrings>
           <bt:LongStrings>
-            <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Report suspicious emails"/>
-            <bt:String id="ActionButton.Tooltip" DefaultValue="Submit suspected phishing emails."/>
+            <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Report suspicious email"/>
+            <bt:String id="ActionButton.Tooltip" DefaultValue="Submit suspected phishing email."/>
           </bt:LongStrings>
         </Resources>
     </VersionOverrides>

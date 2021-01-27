@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { MessageBar, MessageBarType, Link } from 'office-ui-fabric-react';
-import AppOptions from '../AppOptions';
+//import { MessageBar, MessageBarType, Link } from 'office-ui-fabric-react';
+import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
+//import AppOptions from '../AppOptions';
 
 export interface INotificationParams {
     message: string;
@@ -34,8 +35,8 @@ export default class NotificationMessage extends React.Component<INotificationMe
 
     public render() {
         let info = this.props.cbGetNotificationMessage();
-        let appOptions = new AppOptions;
-        let currentThreatsLink = appOptions.defaultCurrentThreatsLink;
+        //let appOptions = new AppOptions;
+        //let currentThreatsLink = appOptions.defaultCurrentThreatsLink;
         this.state.stateNotificationMsg = info.message;
         this.state.stateMessageBarTypeWanted = info.messageBarTypeWanted;
         if (info.message !== "") {
@@ -57,10 +58,15 @@ export default class NotificationMessage extends React.Component<INotificationMe
                             onDismiss={this.closeWindow} 
                             dismissButtonAriaLabel="Close">
                             {msg}
-                            <Link href={currentThreatsLink} target="_blank">
-                            See our website for details.
-                            </Link>
                         </MessageBar>;
+// We took this Link out for now, in favor of reintroducing it 
+// in a few months in a new blog article. Plus, our own web page
+// needs to be built to describe what's going on. 
+// Note: Be sure to uncomment the import Link statement above along
+//       with all the AppOptions items.
+//                            <Link href={currentThreatsLink} target="_blank">
+//                            See our website for details.
+//                            </Link>
             }
         }
         else {

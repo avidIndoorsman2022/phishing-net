@@ -142,6 +142,7 @@ export default class App extends React.Component<AppProps, AppState> {
               //
               // And finally, save the new options if necessary.
               //
+              debug.Log("App.click", "isDirty: " + _appOptions.isDirty);
               if (_appOptions.isDirty===true || debug.IsDirty===true) {
                 _appOptions.Save(Office.context.roamingSettings);
               }
@@ -437,6 +438,7 @@ export default class App extends React.Component<AppProps, AppState> {
                     styles={aboutAreaCheckboxStyle}
             onChange={this._onCheckboxChange.bind(this, debug.nameDebugLogWanted)} /> */ }
           <p className='ms-font-xs'><a href="javascript:window.location.reload(true);">Reload</a></p>
+          <p className='ms-font-xs'>By <Link href="https://www.SperrySoftware.com/Email-Tools/product-category/office365-addin-subscriptions/" target="_blank">Sperry Software</Link> </p>
         </Stack>
       </div>
     );
