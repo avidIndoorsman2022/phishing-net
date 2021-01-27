@@ -2,7 +2,7 @@ import { ApplicationInsights, ITelemetryItem, SeverityLevel } from '@microsoft/a
 
 class Debug {
 
-    public APP_VER:string = "1.2.7602.48644"; // from the manifest
+    public APP_VER:string = "1.3.7619.44293"; // from the manifest
     private APP_NAME:string = "Phishing Net";
     private APP_NAME_NO_SPACES:string = "PhishingNet";
     private BUILT_FOR_CUSTOMER:string = "Parexel"; // normally blank=retail
