@@ -2,7 +2,8 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/CustomAddIns/Parexel/node_modules
-/CustomAddIns/Parexel/dist
-/node_modules
-/dist
+/CustomAddIns/Parexel/node_modules/*
+/CustomAddIns/Parexel/dist/*
+/node_modules/*
+/dist/*
+CustomAddIns/Parexel/dist/commands.js
