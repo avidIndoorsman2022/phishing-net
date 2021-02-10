@@ -438,7 +438,7 @@ export default class App extends React.Component<AppProps, AppState> {
                     styles={aboutAreaCheckboxStyle}
             onChange={this._onCheckboxChange.bind(this, debug.nameDebugLogWanted)} /> */ }
           <p className='ms-font-xs'><a href="javascript:window.location.reload(true);">Reload</a></p>
-          <p className='ms-font-xs'>By <Link href="https://www.SperrySoftware.com/Email-Tools/product-category/office365-addin-subscriptions/" target="_blank">Sperry Software</Link> </p>
+          <p className='ms-font-xs'>By <Link href="https://www.SperrySoftware.com/Email-Tools/product-category/office-365-apps/" target="_blank">Sperry Software</Link> </p>
         </Stack>
       </div>
     );
